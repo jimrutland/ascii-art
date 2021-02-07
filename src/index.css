@@ -12,3 +12,24 @@
   width: 50%;
   text-align: center;
 }
+
+#artContainer {
+  width: 800px;
+  height: 800px;
+}
+
+.pixelRow {
+  display: block;
+  max-height: 1px;
+  min-width: 800px;
+}
+
+.pixel {
+  max-width: 1px;
+  min-width: 1px;
+  min-height: 1px;
+  max-height: 1px;
+  border:none;
+  font-size: 3px;
+  display: inline-block;
+}

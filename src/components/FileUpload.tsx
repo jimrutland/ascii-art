@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 
 interface FileUploadProps {
@@ -7,7 +8,7 @@ interface FileUploadProps {
 const FileUpload = (props: FileUploadProps) => {
     const imageLoaded = (event: React.ChangeEvent) => {
         const urlCreator = window.URL || window.webkitURL;
-        const uploadedFile = event.target.files[0];
+        const uploadedFile = (event.target as HTMLInputElement).files[0];
         const image = new Image();
         image.onload = () => {
             props.setImage(image);
