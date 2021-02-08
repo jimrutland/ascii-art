@@ -18,18 +18,16 @@
   height: 800px;
 }
 
+button {
+  margin: 20px;
+}
+
 .pixelRow {
   display: block;
-  max-height: 1px;
   min-width: 800px;
 }
 
 .pixel {
-  max-width: 1px;
-  min-width: 1px;
-  min-height: 1px;
-  max-height: 1px;
   border:none;
-  font-size: 3px;
   display: inline-block;
 }
