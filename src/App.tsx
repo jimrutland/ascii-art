@@ -9,12 +9,13 @@ const App = () => {
     const [shouldGenerateAsciiArt, setShouldGenerateAsciiArt] = useState<boolean>(false);
     const [shouldGenerateColorAsciiArt, setShouldGenerateColorAsciiArt] = useState<boolean>(false);
     const [shouldGenerateBlurryImage, setShouldGenerateBlurryImage] = useState<boolean>(false);
+    const [blurFactor, setBlurFactor] = useState<string>("");
     const artTypes: Map<string, (bool: boolean) => void> = new Map([
          ["grayAscii", setShouldGenerateAsciiArt],
          ["colorAscii", setShouldGenerateColorAsciiArt],
          ["blurry", setShouldGenerateBlurryImage]
     ]);
-
+    
     const setArtState = (activeArtType: string): void => {
         artTypes.forEach((setArtType, currentArtType) => {
             setArtType(activeArtType === currentArtType);
@@ -24,12 +25,14 @@ const App = () => {
     return (
         <div id="appContainer">
             <PictureCanvas 
+                blurFactor={blurFactor}
                 image={image} 
                 shouldGenerateAsciiArt={shouldGenerateAsciiArt}
                 shouldGenerateColorAsciiArt={shouldGenerateColorAsciiArt} 
                 shouldGenerateBlurryImage={shouldGenerateBlurryImage}/>
             <div id="buttons">
                 <FileUpload setImage={setImage}/>
+                <input type = "text" placeholder= "Blur Factor" onInput={(e)=>setBlurFactor(e.target.value)}/>
                 <button onClick={() => setArtState("blurry")}> Blurry </button>
                 <button onClick={() => setArtState("grayAscii")}> Ascii Grayscale </button>
                 <button onClick={() => setArtState("colorAscii")}> Ascii Color</button>

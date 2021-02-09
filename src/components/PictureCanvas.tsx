@@ -4,6 +4,7 @@ import { Pixel } from '../models/Pixel';
 import { getPixelsForCanvas } from '../services/CanvasToPixels';
 
 interface PictureCanvasProps {
+    blurFactor:string;
     image: HTMLImageElement;
     shouldGenerateAsciiArt: boolean;
     shouldGenerateColorAsciiArt: boolean;
@@ -83,7 +84,7 @@ const PictureCanvas = (props: PictureCanvasProps) => {
 
     const getBlurryPixels = (pixelMatrixToBlur: Pixel[][]) => {
         const blurryPixels: Pixel[][] = [];
-        for (let i = 0; i < pixelMatrixToBlur.length; i += 4) {
+        for (let i = 0; i < pixelMatrixToBlur.length; i += props.blurFactor) {
             const currentPixelRow = pixelMatrixToBlur[i];
             const oneRowDown = pixelMatrixToBlur[i + 1];
             const twoRowsDown = pixelMatrixToBlur[i + 2];
@@ -92,21 +93,20 @@ const PictureCanvas = (props: PictureCanvasProps) => {
                 break;
             }
             const blurryRow: Pixel[] = [];
-            for(let j = 0; j < currentPixelRow.length; j += 4) {
+            for(let j = 0; j < currentPixelRow.length; j += props.blurFactor) {
                 let accumulativeRedValue = 0;
                 let accumulativeGreenValue = 0;
                 let accumulativeBlueValue = 0;
                 let accumulativeAlphaValue = 0;
-                const pixelsToAverage = [   
-                    currentPixelRow[j],
-                    currentPixelRow[j + 1],
-                    oneRowDown[j],
-                    oneRowDown[j + 1],
-                    twoRowsDown[j],
-                    twoRowsDown[j + 1],
-                    threeRowsDown[j],
-                    threeRowsDown[j + 1]
-                ];
+                const pixelsToAverage = [];  
+                for(let k = 0; k<parseInt(props.blurFactor); k++){
+                    pixelsToAverage.push(currentPixelRow[k])
+                    pixelsToAverage.push(currentPixelRow[k+1])
+
+                }
+                 
+            
+               
                 for (const pixel of pixelsToAverage) {
                     accumulativeRedValue += pixel.getRedChannel();
                     accumulativeGreenValue += pixel.getGreenChannel();
