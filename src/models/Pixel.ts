@@ -4,17 +4,13 @@ export class Pixel {
     private green;
     private blue;
     private alpha;
-    private width;
-    private height;
     private static brightnessChars = ' .`^",:;Il!i><~+_-?][}{1)(|tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
 
-    constructor(red: number, green: number, blue: number, alpha: number, width: number, height: number) {
+    constructor(red: number, green: number, blue: number, alpha: number) {
         this.red = red;
         this.green = green;
         this.blue = blue;
         this.alpha = alpha;
-        this.width = width;
-        this.height = height;
     }
 
     public getRedChannel(): number {
@@ -31,14 +27,6 @@ export class Pixel {
 
     public getAlphaChannel(): number {
         return this.alpha;
-    }
-
-    public getWidth(): number {
-        return this.width;
-    }
-
-    public getHeight(): number {
-        return this.height;
     }
 
     public getIntensity(): number {

@@ -2,40 +2,26 @@ import * as React from 'react';
 import { useState } from 'react';
 import FileUpload from './components/FileUpload';
 import PictureCanvas from './components/PictureCanvas';
+import { PixelGridType } from './components/PixelComponents/PixelGrid';
 
 
 const App = () => {
     const [image, setImage] = useState<HTMLImageElement>(null);
-    const [shouldGenerateAsciiArt, setShouldGenerateAsciiArt] = useState<boolean>(false);
-    const [shouldGenerateColorAsciiArt, setShouldGenerateColorAsciiArt] = useState<boolean>(false);
-    const [shouldGenerateBlurryImage, setShouldGenerateBlurryImage] = useState<boolean>(false);
-    const [blurFactor, setBlurFactor] = useState<string>("");
-    const artTypes: Map<string, (bool: boolean) => void> = new Map([
-         ["grayAscii", setShouldGenerateAsciiArt],
-         ["colorAscii", setShouldGenerateColorAsciiArt],
-         ["blurry", setShouldGenerateBlurryImage]
-    ]);
-    
-    const setArtState = (activeArtType: string): void => {
-        artTypes.forEach((setArtType, currentArtType) => {
-            setArtType(activeArtType === currentArtType);
-        })
-    };
+    const [gridType, setGridType] = useState<PixelGridType>(null);
+    const [pixelFactor, setPixelFactor] = useState<number>(1);
 
     return (
         <div id="appContainer">
-            <PictureCanvas 
-                blurFactor={blurFactor}
+            <PictureCanvas
+                blurFactor={pixelFactor}
                 image={image} 
-                shouldGenerateAsciiArt={shouldGenerateAsciiArt}
-                shouldGenerateColorAsciiArt={shouldGenerateColorAsciiArt} 
-                shouldGenerateBlurryImage={shouldGenerateBlurryImage}/>
+                gridType={gridType} />
             <div id="buttons">
                 <FileUpload setImage={setImage}/>
-                <input type = "text" placeholder= "Blur Factor" onInput={(e)=>setBlurFactor(e.target.value)}/>
-                <button onClick={() => setArtState("blurry")}> Blurry </button>
-                <button onClick={() => setArtState("grayAscii")}> Ascii Grayscale </button>
-                <button onClick={() => setArtState("colorAscii")}> Ascii Color</button>
+                <input type="number" placeholder="Blur Factor"  onInput={(e) => setPixelFactor(parseInt(e.target.value))}/>
+                <button onClick={() => setGridType("pixelated")}> Blurry </button>
+                <button onClick={() => setGridType("asciiGray")}> Ascii Grayscale </button>
+                <button onClick={() => setGridType("asciiColor")}> Ascii Color</button>
             </div>
         </div>
     );

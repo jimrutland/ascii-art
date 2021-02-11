@@ -14,20 +14,20 @@
 }
 
 #artContainer {
-  width: 800px;
-  height: 800px;
+  max-width: 800px;
+  min-width: 800px;
+  max-height: 800px;
+  min-height: 800px;
 }
 
 button {
   margin: 20px;
 }
 
-.pixelRow {
-  display: block;
+.pixelGridRow {
   min-width: 800px;
 }
 
 .pixel {
-  border:none;
   display: inline-block;
 }
