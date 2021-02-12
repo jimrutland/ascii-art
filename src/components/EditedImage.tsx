@@ -6,7 +6,6 @@ import { useEffect, useRef } from 'react';
 
 export interface ImageProps {
     pixels: Pixel[][];
-    rawPixelMatrix: Pixel[][];
     imageType: ImageType;
     factor: number;
 }

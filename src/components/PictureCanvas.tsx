@@ -5,13 +5,12 @@ import { getPixelatedImage } from '../services/PixelationService';
 import { Pixel } from '../models/Pixel';
 import { getPixelsForCanvas } from '../services/CanvasToPixels';
 import EditedImage from './EditedImage';
-import PixelGrid, { PixelGridType } from './PixelComponents/PixelGrid';
+import { getGrayscaledImage } from '../services/PixelGrayscaleService';
 
 export interface PictureCanvasProps {
     factor: number;
     image: HTMLImageElement;
     imageType: ImageType;
-    gridType: PixelGridType;
 }
 
 const PictureCanvas = (props: PictureCanvasProps): JSX.Element => {
@@ -66,9 +65,12 @@ const PictureCanvas = (props: PictureCanvasProps): JSX.Element => {
     };
 
     const drawResultingPixels = () => {
-        if (props.imageType === "pixelated") {
-            const pixelatedImage = getPixelatedImage(rawPixelMatrix, props.factor); 
-            setEditedPixels(pixelatedImage);
+        switch(props.imageType)  {
+            case "pixelated":
+                setEditedPixels(getPixelatedImage(rawPixelMatrix, props.factor));
+                break;
+            case "grayscale":
+                setEditedPixels(getGrayscaledImage(rawPixelMatrix));    
         }
     };
 
@@ -85,18 +87,9 @@ const PictureCanvas = (props: PictureCanvasProps): JSX.Element => {
             </canvas>
             <div id="artContainer">
             {
-                (props.gridType) ?
-                    <PixelGrid 
-                        pixels={rawPixelMatrix} 
-                        gridType={props.gridType} 
-                        factor={props.factor} />
-                    : null
-            }
-            {
                 (props.imageType && editedPixels.length) ?
                     <EditedImage 
                         pixels={editedPixels}
-                        rawPixelMatrix={rawPixelMatrix}
                         imageType={props.imageType}
                         factor={props.factor} />
                     : null

@@ -32,8 +32,4 @@ export class Pixel {
     public getIntensity(): number {
         return (this.red + this.green + this.blue) / 3;
     }
-
-    public getAsciiCharacter(): string{
-        return `${Pixel.brightnessChars.substr(Math.floor((this.getIntensity() * Pixel.brightnessChars.length) / 255), 1)}`;
-    }
 }

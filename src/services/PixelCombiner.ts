@@ -1,4 +1,4 @@
-import { Pixel } from "../../models/Pixel";
+import { Pixel } from "../models/Pixel";
 
 export function createCombinedPixel(pixelsToCombine: Pixel[]): Pixel {
     const redChannels = [];

@@ -1,5 +1,5 @@
 import { Pixel } from "../models/Pixel";
-import { createCombinedPixel } from '../components/PixelComponents/PixelCombiner';
+import { createCombinedPixel } from './PixelCombiner';
 
 export function getPixelatedImage(pixelMatrix: Pixel[][], factor: number): Pixel[][] {
     const pixelatedImage: Pixel[][] = [];

@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 exports.getPixelatedImage = void 0;
-var PixelCombiner_1 = require("../components/PixelComponents/PixelCombiner");
+var PixelCombiner_1 = require("./PixelCombiner");
 function getPixelatedImage(pixelMatrix, factor) {
     var pixelatedImage = [];
     for (var rowIndex = 0; rowIndex < pixelMatrix.length; rowIndex += factor) {

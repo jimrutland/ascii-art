@@ -41,7 +41,7 @@ var react_1 = require("react");
 var PixelationService_1 = require("../services/PixelationService");
 var CanvasToPixels_1 = require("../services/CanvasToPixels");
 var EditedImage_1 = require("./EditedImage");
-var PixelGrid_1 = require("./PixelComponents/PixelGrid");
+var PixelGrayscaleService_1 = require("../services/PixelGrayscaleService");
 var PictureCanvas = function (props) {
     var canvasRef = react_1.useRef(null);
     var _a = react_1.useState([]), rawPixelMatrix = _a[0], setRawPixelMatrix = _a[1];
@@ -97,21 +97,20 @@ var PictureCanvas = function (props) {
         setRawPixelMatrix(asciiArtMatrix);
     };
     var drawResultingPixels = function () {
-        if (props.imageType === "pixelated") {
-            var pixelatedImage = PixelationService_1.getPixelatedImage(rawPixelMatrix, props.factor);
-            setEditedPixels(pixelatedImage);
+        switch (props.imageType) {
+            case "pixelated":
+                setEditedPixels(PixelationService_1.getPixelatedImage(rawPixelMatrix, props.factor));
+                break;
+            case "grayscale":
+                setEditedPixels(PixelGrayscaleService_1.getGrayscaledImage(rawPixelMatrix));
         }
     };
     react_1.useEffect(drawImage, [props.image]);
     react_1.useEffect(drawResultingPixels, [props.imageType]);
     return (React.createElement("div", { style: { display: "flex" } },
         React.createElement("canvas", { ref: canvasRef, width: 800, height: 800, id: "canvas" }),
-        React.createElement("div", { id: "artContainer" },
-            (props.gridType) ?
-                React.createElement(PixelGrid_1["default"], { pixels: rawPixelMatrix, gridType: props.gridType, factor: props.factor })
-                : null,
-            (props.imageType && editedPixels.length) ?
-                React.createElement(EditedImage_1["default"], { pixels: editedPixels, rawPixelMatrix: rawPixelMatrix, imageType: props.imageType, factor: props.factor })
-                : null)));
+        React.createElement("div", { id: "artContainer" }, (props.imageType && editedPixels.length) ?
+            React.createElement(EditedImage_1["default"], { pixels: editedPixels, imageType: props.imageType, factor: props.factor })
+            : null)));
 };
 exports["default"] = PictureCanvas;

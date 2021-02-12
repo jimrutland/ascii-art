@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 exports.createCombinedPixel = void 0;
-var Pixel_1 = require("../../models/Pixel");
+var Pixel_1 = require("../models/Pixel");
 function createCombinedPixel(pixelsToCombine) {
     var redChannels = [];
     var blueChannels = [];
