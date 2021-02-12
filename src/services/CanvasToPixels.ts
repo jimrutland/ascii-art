@@ -6,7 +6,7 @@ export function getPixelsForCanvas(canvas: HTMLCanvasElement): Pixel[][] {
     const pixels: Pixel[][] = [];
     let pixelRow: Pixel[] = [];
     let count = 0;
-    for (let index = 0; index < imageData.length; index += 4) {
+    for (let index = 0; index <= imageData.length; index += 4) {
         const red = imageData[index];
         const green = imageData[index + 1];
         const blue = imageData[index + 2];

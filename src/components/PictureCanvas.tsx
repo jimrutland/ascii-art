@@ -1,27 +1,33 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
+import { ImageType } from 'src/App';
+import { getPixelatedImage } from '../services/PixelationService';
 import { Pixel } from '../models/Pixel';
 import { getPixelsForCanvas } from '../services/CanvasToPixels';
+import EditedImage from './EditedImage';
 import PixelGrid, { PixelGridType } from './PixelComponents/PixelGrid';
 
 export interface PictureCanvasProps {
-    blurFactor: number;
+    factor: number;
     image: HTMLImageElement;
+    imageType: ImageType;
     gridType: PixelGridType;
 }
 
 const PictureCanvas = (props: PictureCanvasProps): JSX.Element => {
-
     const canvasRef: React.MutableRefObject<HTMLCanvasElement> = useRef(null);
-    const [pixelMatrix, setPixelMatrix] = useState<Pixel[][]>([]);
+    const [rawPixelMatrix, setRawPixelMatrix] = useState<Pixel[][]>([]);
+    const [editedPixels, setEditedPixels] = useState<Pixel[][]>([]);
 
     const drawImage = () => {
-        const canvas = canvasRef.current;
-        const canvasContext = canvas.getContext('2d');
-        canvasContext.clearRect(0, 0, canvas.width, canvas.height)
-        drawImageOnCanvas().then(() => {
-            getPixelsFromCanvas();
-        });
+        if (props.image) {
+            const canvas = canvasRef.current;
+            const canvasContext = canvas.getContext('2d');
+            canvasContext.clearRect(0, 0, canvas.width, canvas.height)
+            drawImageOnCanvas().then(() => {
+                getPixelsFromCanvas();
+            });
+        }
    };
 
    const drawImageOnCanvas = async () => {
@@ -56,10 +62,18 @@ const PictureCanvas = (props: PictureCanvasProps): JSX.Element => {
 
     const getPixelsFromCanvas = () => { 
         const asciiArtMatrix = getPixelsForCanvas(canvasRef.current);
-        setPixelMatrix(asciiArtMatrix);
+        setRawPixelMatrix(asciiArtMatrix);
+    };
+
+    const drawResultingPixels = () => {
+        if (props.imageType === "pixelated") {
+            const pixelatedImage = getPixelatedImage(rawPixelMatrix, props.factor); 
+            setEditedPixels(pixelatedImage);
+        }
     };
 
     useEffect(drawImage, [props.image]);
+    useEffect(drawResultingPixels, [props.imageType])
 
     return (
         <div style={{display: "flex"}}>
@@ -69,16 +83,25 @@ const PictureCanvas = (props: PictureCanvasProps): JSX.Element => {
                 height={800}
                 id="canvas">
             </canvas>
+            <div id="artContainer">
             {
                 (props.gridType) ?
-                <div id="artContainer">
                     <PixelGrid 
-                        pixels={pixelMatrix} 
+                        pixels={rawPixelMatrix} 
                         gridType={props.gridType} 
-                        factor={props.blurFactor} />
-                </div>
-                : null
+                        factor={props.factor} />
+                    : null
             }
+            {
+                (props.imageType && editedPixels.length) ?
+                    <EditedImage 
+                        pixels={editedPixels}
+                        rawPixelMatrix={rawPixelMatrix}
+                        imageType={props.imageType}
+                        factor={props.factor} />
+                    : null
+            }
+            </div>
         </div>
     );
 };

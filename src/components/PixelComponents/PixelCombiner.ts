@@ -4,19 +4,22 @@ export function createCombinedPixel(pixelsToCombine: Pixel[]): Pixel {
     const redChannels = [];
     const blueChannels = [];
     const greenChannels = [];
+    const alphaChannels = [];
     for (const pixel of pixelsToCombine){
         redChannels.push(pixel.getRedChannel());
         greenChannels.push(pixel.getGreenChannel());
         blueChannels.push(pixel.getBlueChannel());
+        alphaChannels.push(pixel.getAlphaChannel());
     }
-    return getCombinedPixel(redChannels, greenChannels, blueChannels);
+    return getCombinedPixel(redChannels, greenChannels, blueChannels, alphaChannels);
 }
 
-function getCombinedPixel(reds: number[], greens: number[], blues: number[]): Pixel {
+function getCombinedPixel(reds: number[], greens: number[], blues: number[], alphas: number[]): Pixel {
     const redAverage = getAverageColor(reds);
     const greenAverage = getAverageColor(greens);
     const blueAverage = getAverageColor(blues);
-    return new Pixel(redAverage, greenAverage, blueAverage, 1);
+    const alphaAverage = getAverageColor(alphas);
+    return new Pixel(redAverage, greenAverage, blueAverage, alphaAverage);
 }
 
 function getAverageColor(colors: number[]): number {

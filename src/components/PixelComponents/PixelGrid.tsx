@@ -3,7 +3,7 @@ import { Pixel } from '../../models/Pixel';
 import PixelGridRow from "./PixelGridRow";
 import { getPixelatedImage } from '../../services/PixelationService';
 
-export type PixelGridType = "pixelated" | "asciiGray" | "asciiColor" | "clear";
+export type PixelGridType = "pixelated" | "asciiGray" | "asciiColor";
 
 interface PixelGridProps {
     pixels: Pixel[][];

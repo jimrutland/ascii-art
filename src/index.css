@@ -25,9 +25,12 @@ button {
 }
 
 .pixelGridRow {
+  height: 1px;
   min-width: 800px;
 }
 
 .pixel {
+  width: 1px;
+  height: 1px;
   display: inline-block;
 }

@@ -5,11 +5,19 @@ var PixelCombiner_1 = require("../components/PixelComponents/PixelCombiner");
 function getPixelatedImage(pixelMatrix, factor) {
     var pixelatedImage = [];
     for (var rowIndex = 0; rowIndex < pixelMatrix.length; rowIndex += factor) {
-        var pixelatedRow = [];
         for (var columnIndex = 0; columnIndex < pixelMatrix[rowIndex].length; columnIndex += factor) {
-            pixelatedRow.push(PixelCombiner_1.createCombinedPixel(getChunkOfPixelsFromPosition(pixelMatrix, rowIndex, columnIndex, factor)));
+            var combinedPixel = PixelCombiner_1.createCombinedPixel(getChunkOfPixelsFromPosition(pixelMatrix, rowIndex, columnIndex, factor));
+            for (var i = 0; i < factor; i++) {
+                for (var j = 0; j < factor; j++) {
+                    if (pixelatedImage[rowIndex + i]) {
+                        pixelatedImage[rowIndex + i][columnIndex + j] = combinedPixel;
+                    }
+                    else {
+                        pixelatedImage[rowIndex + i] = [combinedPixel];
+                    }
+                }
+            }
         }
-        pixelatedImage.push(pixelatedRow);
     }
     return pixelatedImage;
 }
