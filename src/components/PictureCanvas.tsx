@@ -1,23 +1,16 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { ImageType } from 'src/App';
-import { getPixelatedImage } from '../services/PixelationService';
 import { Pixel } from '../models/Pixel';
 import { getPixelsForCanvas } from '../services/CanvasToPixels';
-import EditedImage from './EditedImage';
-import { getGrayscaledImage } from '../services/PixelGrayscaleService';
 
 export interface PictureCanvasProps {
-    factor: number;
     image: HTMLImageElement;
-    imageType: ImageType;
+    setRawPixelMatrix: (pixels: Pixel[][]) => void;
 }
 
 const PictureCanvas = (props: PictureCanvasProps): JSX.Element => {
     const canvasRef: React.MutableRefObject<HTMLCanvasElement> = useRef(null);
-    const [rawPixelMatrix, setRawPixelMatrix] = useState<Pixel[][]>([]);
-    const [editedPixels, setEditedPixels] = useState<Pixel[][]>([]);
-
+    
     const drawImage = () => {
         if (props.image) {
             const canvas = canvasRef.current;
@@ -61,41 +54,18 @@ const PictureCanvas = (props: PictureCanvasProps): JSX.Element => {
 
     const getPixelsFromCanvas = () => { 
         const asciiArtMatrix = getPixelsForCanvas(canvasRef.current);
-        setRawPixelMatrix(asciiArtMatrix);
-    };
-
-    const drawResultingPixels = () => {
-        switch(props.imageType)  {
-            case "pixelated":
-                setEditedPixels(getPixelatedImage(rawPixelMatrix, props.factor));
-                break;
-            case "grayscale":
-                setEditedPixels(getGrayscaledImage(rawPixelMatrix));    
-        }
+        props.setRawPixelMatrix(asciiArtMatrix);
     };
 
     useEffect(drawImage, [props.image]);
-    useEffect(drawResultingPixels, [props.imageType])
 
     return (
-        <div style={{display: "flex"}}>
-            <canvas 
-                ref={canvasRef}
-                width={800}
-                height={800}
-                id="canvas">
-            </canvas>
-            <div id="artContainer">
-            {
-                (props.imageType && editedPixels.length) ?
-                    <EditedImage 
-                        pixels={editedPixels}
-                        imageType={props.imageType}
-                        factor={props.factor} />
-                    : null
-            }
-            </div>
-        </div>
+        <canvas 
+            ref={canvasRef}
+            width={800}
+            height={800}
+            id="canvas">
+        </canvas>
     );
 };
 

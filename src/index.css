@@ -1,23 +1,26 @@
 
-#canvas {
+body {
+  background-color: slategray;
+}
+
+canvas {
   display: block;
   margin: auto;
   padding: 20px;
+  width: 800px;
+  height: 800px;
 }
 
 #buttons {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 100%;
   text-align: center;
 }
 
 #artContainer {
-  max-width: 800px;
-  min-width: 800px;
-  max-height: 800px;
-  min-height: 800px;
+  display: flex;
 }
 
 button {

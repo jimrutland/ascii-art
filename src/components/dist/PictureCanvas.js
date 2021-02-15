@@ -38,14 +38,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var React = require("react");
 var react_1 = require("react");
-var PixelationService_1 = require("../services/PixelationService");
 var CanvasToPixels_1 = require("../services/CanvasToPixels");
-var EditedImage_1 = require("./EditedImage");
-var PixelGrayscaleService_1 = require("../services/PixelGrayscaleService");
 var PictureCanvas = function (props) {
     var canvasRef = react_1.useRef(null);
-    var _a = react_1.useState([]), rawPixelMatrix = _a[0], setRawPixelMatrix = _a[1];
-    var _b = react_1.useState([]), editedPixels = _b[0], setEditedPixels = _b[1];
     var drawImage = function () {
         if (props.image) {
             var canvas = canvasRef.current;
@@ -94,23 +89,9 @@ var PictureCanvas = function (props) {
     };
     var getPixelsFromCanvas = function () {
         var asciiArtMatrix = CanvasToPixels_1.getPixelsForCanvas(canvasRef.current);
-        setRawPixelMatrix(asciiArtMatrix);
-    };
-    var drawResultingPixels = function () {
-        switch (props.imageType) {
-            case "pixelated":
-                setEditedPixels(PixelationService_1.getPixelatedImage(rawPixelMatrix, props.factor));
-                break;
-            case "grayscale":
-                setEditedPixels(PixelGrayscaleService_1.getGrayscaledImage(rawPixelMatrix));
-        }
+        props.setRawPixelMatrix(asciiArtMatrix);
     };
     react_1.useEffect(drawImage, [props.image]);
-    react_1.useEffect(drawResultingPixels, [props.imageType]);
-    return (React.createElement("div", { style: { display: "flex" } },
-        React.createElement("canvas", { ref: canvasRef, width: 800, height: 800, id: "canvas" }),
-        React.createElement("div", { id: "artContainer" }, (props.imageType && editedPixels.length) ?
-            React.createElement(EditedImage_1["default"], { pixels: editedPixels, imageType: props.imageType, factor: props.factor })
-            : null)));
+    return (React.createElement("canvas", { ref: canvasRef, width: 800, height: 800, id: "canvas" }));
 };
 exports["default"] = PictureCanvas;

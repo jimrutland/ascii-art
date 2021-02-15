@@ -1,13 +1,10 @@
 
 import * as React from 'react';
-import { ImageType } from '..App';
 import { Pixel } from '../models/Pixel';
 import { useEffect, useRef } from 'react';
 
 export interface ImageProps {
     pixels: Pixel[][];
-    imageType: ImageType;
-    factor: number;
 }
 
 const EditedImage = (props: ImageProps): JSX.Element => {
